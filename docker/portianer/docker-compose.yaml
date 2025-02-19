@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    ports:
+      - "9000:9000" 
+      - "9443:9443"
+      - "8000:8000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - portainer-data:/data
+    environment:
+      - PUID=1000  # Set to your user ID
+      - PGID=1000  # Set to your group ID
+      - TZ=UTC  # Adjust timezone as needed
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true" # Enable automatic updates if using Watchtower
+    restart: unless-stopped
+
+volumes:
+  portainer-data:
+    driver: local
